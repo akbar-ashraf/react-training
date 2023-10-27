@@ -9,7 +9,7 @@ export const Home = ({ isEditMode }) => {
         <AboutSection isEditMode={isEditMode} />
         <ExperienceSection isEditMode={isEditMode} />
       </div>
-      <Sidebar />
+      <Sidebar isEditMode={isEditMode} />
     </div>
   );
 };
