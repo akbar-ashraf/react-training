@@ -5,14 +5,13 @@ import { Home } from "./pages/home";
 function App() {
   const [isEditMode, setIsEditMode] = useState(false);
 
-  const editModeToggle = () => {
-    console.log(isEditMode);
+  const toggleEditMode = () => {
     setIsEditMode(!isEditMode);
   };
 
   return (
     <>
-      <Header isEditMode={isEditMode} onToggle={editModeToggle} />
+      <Header isEditMode={isEditMode} onToggle={toggleEditMode} />
       <div id="contentWrapper" className="container">
         <Home isEditMode={isEditMode}></Home>
       </div>

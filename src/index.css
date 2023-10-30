@@ -323,8 +323,8 @@ form button {
   display: block;
   background-color: #1d9bf0;
   border-radius: 50%;
-  padding: 10px;
-  margin-left: 10px;
+  padding: 12px;
+  margin-left: 5px;
   margin-bottom: 10px;
 }
 .profileAvatarEdit span svg {

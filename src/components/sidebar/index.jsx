@@ -19,15 +19,11 @@ export const Sidebar = ({ isEditMode }) => {
       <h3>Akbar Ali</h3>
       <h4>Skills:</h4>
       {isEditMode ? (
-        <>
-          <div className="formControl">
-            <textarea defaultValue={skills} onChange={handlerSkills}></textarea>
-          </div>
-        </>
+        <div className="formControl">
+          <textarea defaultValue={skills} onChange={handlerSkills}></textarea>
+        </div>
       ) : (
-        <>
-          <p>{skills}</p>
-        </>
+        <p>{skills}</p>
       )}
     </div>
   );
