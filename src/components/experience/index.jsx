@@ -15,7 +15,7 @@ export const ExperienceSection = ({ isEditMode }) => {
 
   const [selectedExperience, setSelectedExperience] = useState(null);
 
-  const showFormHandler = () => {
+  const handlerShowForm = () => {
     setShowForm(true);
   };
 
@@ -64,7 +64,7 @@ export const ExperienceSection = ({ isEditMode }) => {
         <h2>Experience</h2>
         {isEditMode && (
           <div>
-            <button type="button" className="btn" onClick={showFormHandler}>
+            <button type="button" className="btn" onClick={handlerShowForm}>
               Add Experience
             </button>
           </div>
@@ -137,7 +137,7 @@ export const ExperienceSection = ({ isEditMode }) => {
                     </p>
                   )}
                   {item.startDate && <>Start Date: {item.startDate}</>}
-                  {item.endDate && <>End Date: {item.endDate}</>}
+                  {item.endDate && <> - End Date: {item.endDate}</>}
                   {item.description && <p>{item.description}</p>}
 
                   {isEditMode && (
