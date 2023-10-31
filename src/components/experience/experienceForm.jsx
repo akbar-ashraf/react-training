@@ -3,8 +3,8 @@ import { useState } from "react";
 export const ExperienceForm = ({
   formData,
   selectedExperience,
-  handlerInputChange,
-  submitHandler,
+  handleInputChange,
+  handleSubmit,
 }) => {
   const [errors, setErrors] = useState({});
 
@@ -43,7 +43,7 @@ export const ExperienceForm = ({
           id="companyName"
           name="companyName"
           value={formData.companyName}
-          onChange={handlerInputChange}
+          onChange={handleInputChange}
         />
         {errors.companyName && <p className="error">{errors.companyName}</p>}
       </div>
@@ -54,7 +54,7 @@ export const ExperienceForm = ({
           id="startDate"
           name="startDate"
           value={formData.startDate}
-          onChange={handlerInputChange}
+          onChange={handleInputChange}
         />
         {errors.startDate && <p className="error">{errors.startDate}</p>}
       </div>
@@ -65,7 +65,7 @@ export const ExperienceForm = ({
           id="endDate"
           name="endDate"
           value={formData.endDate}
-          onChange={handlerInputChange}
+          onChange={handleInputChange}
         />
         {errors.endDate && <p className="error">{errors.endDate}</p>}
       </div>
@@ -76,7 +76,7 @@ export const ExperienceForm = ({
           name="description"
           rows="5"
           value={formData.description}
-          onChange={handlerInputChange}
+          onChange={handleInputChange}
         ></textarea>
       </div>
       <div className="text-center">
