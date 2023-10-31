@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { ExperienceList } from "./experienceList";
 import { ExperienceForm } from "./experienceForm";
@@ -9,13 +9,39 @@ const initialFormData = {
   description: "",
 };
 
-export const ExperienceSection = ({ isEditMode }) => {
+export const ExperienceSection = ({ isEditMode, setTotalExperience }) => {
   const [experienceData, setExperienceData] = useState([]);
   const [showForm, setShowForm] = useState(false);
 
   const [formData, setFormData] = useState(initialFormData);
 
   const [selectedExperience, setSelectedExperience] = useState(null);
+
+  const calculateTotalExperience = (experiences) => {
+    let totalExperience = 0;
+    //console.log(experiences);
+    experiences.forEach((experience) => {
+      console.log(experience);
+      if (experience.startDate && experience.endDate) {
+        const startDate = new Date(experience.startDate);
+        const endDate = new Date(experience.endDate);
+        console.log(startDate);
+        const duration = endDate - startDate;
+        console.log("duration: ", duration);
+        const years = duration / (365 * 24 * 60 * 60 * 1000);
+        console.log("years:", years);
+        totalExperience += years;
+      }
+    });
+    return totalExperience.toFixed(2);
+  };
+
+  useEffect(() => {
+    console.log("useEffect experienceData");
+    const cacYears = calculateTotalExperience(experienceData);
+    setTotalExperience(cacYears);
+    console.log("cacYears:", cacYears);
+  }, [experienceData, setTotalExperience]);
 
   const handlerShowForm = () => {
     setShowForm(true);
