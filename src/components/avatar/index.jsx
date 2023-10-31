@@ -1,6 +1,11 @@
-export const ProfileAvatar = ({ pictureURL, size }) => {
+import { EditIcon } from "../icons/editIcon";
+
+export const ProfileAvatar = ({ isEditMode, pictureURL, size }) => {
   return (
-    <div className="profileAvatar">
+    <div
+      className="profileAvatar"
+      style={{ width: `${size}px`, height: `${size}px` }}
+    >
       <img
         className=""
         src={pictureURL}
@@ -8,6 +13,14 @@ export const ProfileAvatar = ({ pictureURL, size }) => {
         width={size}
         height={size}
       />
+      {isEditMode && (
+        <div className="profileAvatarEdit">
+          <span>
+            <EditIcon />
+          </span>
+          <input type="file"></input>
+        </div>
+      )}
     </div>
   );
 };

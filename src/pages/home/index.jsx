@@ -2,14 +2,14 @@ import { AboutSection } from "../../components/about";
 import { ExperienceSection } from "../../components/experience";
 import { Sidebar } from "../../components/sidebar";
 
-export const Home = () => {
+export const Home = ({ isEditMode }) => {
   return (
     <div className="portfolioContent">
       <div className="portfolioContentLeft">
-        <AboutSection />
-        <ExperienceSection />
+        <AboutSection isEditMode={isEditMode} />
+        <ExperienceSection isEditMode={isEditMode} />
       </div>
-      <Sidebar />
+      <Sidebar isEditMode={isEditMode} />
     </div>
   );
 };
