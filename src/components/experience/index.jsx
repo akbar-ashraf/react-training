@@ -17,29 +17,29 @@ export const ExperienceSection = ({ isEditMode }) => {
 
   const [selectedExperience, setSelectedExperience] = useState(null);
 
-  const handlerShowForm = () => {
+  const handleShowForm = () => {
     setShowForm(true);
   };
 
-  const handlerInputChange = (e) => {
+  const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handlerEditExperience = (id) => {
+  const handleEditExperience = (id) => {
     setSelectedExperience(id);
     const editExperience = experienceData.find((item) => item._id == id);
     setFormData(editExperience);
   };
 
-  const handlerDeleteExperience = (id) => {
+  const handleDeleteExperience = (id) => {
     const updateExperiencedData = experienceData.filter(
       (item) => item._id != id
     );
     setExperienceData(updateExperiencedData);
   };
 
-  const submitHandler = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     if (selectedExperience) {
       const updatedExperience = experienceData.map((item) => {
@@ -66,7 +66,7 @@ export const ExperienceSection = ({ isEditMode }) => {
         <h2>Experience</h2>
         {isEditMode && (
           <div>
-            <button type="button" className="btn" onClick={handlerShowForm}>
+            <button type="button" className="btn" onClick={handleShowForm}>
               Add Experience
             </button>
           </div>
@@ -76,8 +76,8 @@ export const ExperienceSection = ({ isEditMode }) => {
         <ExperienceForm
           formData={formData}
           selectedExperience={selectedExperience}
-          submitHandler={submitHandler}
-          handlerInputChange={handlerInputChange}
+          handleSubmit={handleSubmit}
+          handleInputChange={handleInputChange}
         />
       )}
 
@@ -90,8 +90,8 @@ export const ExperienceSection = ({ isEditMode }) => {
                   key={item._id}
                   item={item}
                   isEditMode={isEditMode}
-                  handlerEditExperience={handlerEditExperience}
-                  handlerDeleteExperience={handlerDeleteExperience}
+                  handleEditExperience={handleEditExperience}
+                  handleDeleteExperience={handleDeleteExperience}
                 ></ExperienceList>
               );
             })}

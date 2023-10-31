@@ -1,11 +1,11 @@
 export const ExperienceForm = ({
   formData,
   selectedExperience,
-  handlerInputChange,
-  submitHandler,
+  handleInputChange,
+  handleSubmit,
 }) => {
   return (
-    <form id="experienceForm" className="mb-4" onSubmit={submitHandler}>
+    <form id="experienceForm" className="mb-4" onSubmit={handleSubmit}>
       <input type="hidden" value="-1" id="idInput" name="idInput" />
       <div className="formControl">
         <label htmlFor="companyName">Company Name: </label>
@@ -15,7 +15,7 @@ export const ExperienceForm = ({
           id="companyName"
           name="companyName"
           value={formData.companyName}
-          onChange={handlerInputChange}
+          onChange={handleInputChange}
         />
       </div>
       <div className="formControl">
@@ -25,7 +25,7 @@ export const ExperienceForm = ({
           id="startDate"
           name="startDate"
           value={formData.startDate}
-          onChange={handlerInputChange}
+          onChange={handleInputChange}
         />
       </div>
       <div className="formControl">
@@ -35,7 +35,7 @@ export const ExperienceForm = ({
           id="endDate"
           name="endDate"
           value={formData.endDate}
-          onChange={handlerInputChange}
+          onChange={handleInputChange}
         />
       </div>
       <div className="formControl">
@@ -45,7 +45,7 @@ export const ExperienceForm = ({
           name="description"
           rows="5"
           value={formData.description}
-          onChange={handlerInputChange}
+          onChange={handleInputChange}
         ></textarea>
       </div>
       <div className="text-center">
