@@ -28,9 +28,8 @@ export const ExperienceForm = ({
   const onSubmit = (e) => {
     e.preventDefault();
     const validationErrors = validateForm();
-    console.log("validationErrors", validationErrors);
     if (Object.keys(validationErrors).length === 0) {
-      submitHandler(e);
+      handleSubmit(e);
     }
   };
   return (

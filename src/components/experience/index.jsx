@@ -19,17 +19,12 @@ export const ExperienceSection = ({ isEditMode, setTotalExperience }) => {
 
   const calculateTotalExperience = (experiences) => {
     let totalExperience = 0;
-    //console.log(experiences);
     experiences.forEach((experience) => {
-      console.log(experience);
       if (experience.startDate && experience.endDate) {
         const startDate = new Date(experience.startDate);
         const endDate = new Date(experience.endDate);
-        console.log(startDate);
         const duration = endDate - startDate;
-        console.log("duration: ", duration);
         const years = duration / (365 * 24 * 60 * 60 * 1000);
-        console.log("years:", years);
         totalExperience += years;
       }
     });
@@ -37,10 +32,8 @@ export const ExperienceSection = ({ isEditMode, setTotalExperience }) => {
   };
 
   useEffect(() => {
-    console.log("useEffect experienceData");
-    const cacYears = calculateTotalExperience(experienceData);
-    setTotalExperience(cacYears);
-    console.log("cacYears:", cacYears);
+    const calculatedTotalExperience = calculateTotalExperience(experienceData);
+    setTotalExperience(calculatedTotalExperience);
   }, [experienceData, setTotalExperience]);
 
   const handleShowForm = () => {

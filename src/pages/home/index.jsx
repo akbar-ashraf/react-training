@@ -4,7 +4,7 @@ import { ExperienceSection } from "../../components/experience";
 import { Sidebar } from "../../components/sidebar";
 
 export const Home = ({ isEditMode }) => {
-  const [totalExperience, setTotalExperience] = useState(10);
+  const [totalExperience, setTotalExperience] = useState(0);
   return (
     <div className="portfolioContent">
       <div className="portfolioContentLeft">
