@@ -9,8 +9,11 @@ const initialFormData = {
   description: "",
 };
 
-export const ExperienceSection = ({ isEditMode }) => {
-  const [experienceData, setExperienceData] = useState([]);
+export const ExperienceSection = ({
+  isEditMode,
+  experienceData,
+  setExperienceData,
+}) => {
   const [showForm, setShowForm] = useState(false);
 
   const [formData, setFormData] = useState(initialFormData);
