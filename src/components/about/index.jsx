@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 export const AboutSection = ({ isEditMode, experienceData }) => {
   const [aboutText, setAboutText] = useState(
@@ -22,7 +22,9 @@ export const AboutSection = ({ isEditMode, experienceData }) => {
     return parseFloat(totalExperience.toFixed(1));
   };
 
-  const totalExperience = calculateTotalExperience(experienceData);
+  const totalExperience = useMemo(() => {
+    return calculateTotalExperience(experienceData);
+  }, [experienceData]);
 
   return (
     <div className="cardBox">
