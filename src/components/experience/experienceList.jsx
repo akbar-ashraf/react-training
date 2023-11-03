@@ -1,12 +1,14 @@
 import { EditIcon } from "../icons/editIcon";
 import { DeleteIcon } from "../icons/deleteIcon";
+import { useContext } from "react";
+import { EditModeContext } from "../../context/editModeContext";
 
 export const ExperienceList = ({
   item,
-  isEditMode,
   handleDeleteExperience,
   handleEditExperience,
 }) => {
+  const isEditMode = useContext(EditModeContext);
   return (
     <li key={item._id}>
       {item.companyName && (

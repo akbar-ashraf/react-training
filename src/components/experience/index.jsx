@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 
 import { ExperienceList } from "./experienceList";
 import { ExperienceForm } from "./experienceForm";
+import { EditModeContext } from "../../context/editModeContext";
+
 const initialFormData = {
   companyName: "",
   startDate: "",
@@ -9,11 +11,9 @@ const initialFormData = {
   description: "",
 };
 
-export const ExperienceSection = ({
-  isEditMode,
-  experienceData,
-  setExperienceData,
-}) => {
+export const ExperienceSection = ({ experienceData, setExperienceData }) => {
+  const isEditMode = useContext(EditModeContext);
+
   const [showForm, setShowForm] = useState(false);
 
   const [formData, setFormData] = useState(initialFormData);
@@ -92,7 +92,6 @@ export const ExperienceSection = ({
                 <ExperienceList
                   key={item._id}
                   item={item}
-                  isEditMode={isEditMode}
                   handleEditExperience={handleEditExperience}
                   handleDeleteExperience={handleDeleteExperience}
                 ></ExperienceList>

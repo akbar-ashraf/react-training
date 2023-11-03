@@ -1,6 +1,9 @@
+import { useContext } from "react";
 import { EditIcon } from "../icons/editIcon";
+import { EditModeContext } from "../../context/editModeContext";
 
-export const ProfileAvatar = ({ isEditMode, pictureURL, size }) => {
+export const ProfileAvatar = ({ pictureURL, size }) => {
+  const isEditMode = useContext(EditModeContext);
   return (
     <div
       className="profileAvatar"
