@@ -11,7 +11,7 @@ const initialFormData = {
   description: "",
 };
 
-export const ExperienceSection = ({ experienceData, setExperienceData }) => {
+export const ExperienceSection = ({ experienceData, handleExperienceData }) => {
   const isEditMode = useContext(EditModeContext);
 
   const [showForm, setShowForm] = useState(false);
@@ -33,13 +33,14 @@ export const ExperienceSection = ({ experienceData, setExperienceData }) => {
     setSelectedExperience(id);
     const editExperience = experienceData.find((item) => item._id == id);
     setFormData(editExperience);
+    handleShowForm();
   };
 
   const handleDeleteExperience = (id) => {
     const updateExperiencedData = experienceData.filter(
       (item) => item._id != id
     );
-    setExperienceData(updateExperiencedData);
+    handleExperienceData(updateExperiencedData);
   };
 
   const handleSubmit = (e) => {
@@ -52,12 +53,12 @@ export const ExperienceSection = ({ experienceData, setExperienceData }) => {
           return item;
         }
       });
-      setExperienceData(updatedExperience);
+      handleExperienceData(updatedExperience);
       setSelectedExperience(null);
     } else {
       const uniqueID = Date.now();
       const newExperience = { ...formData, _id: uniqueID };
-      setExperienceData([...experienceData, newExperience]);
+      handleExperienceData([...experienceData, newExperience]);
     }
 
     setFormData(initialFormData);
