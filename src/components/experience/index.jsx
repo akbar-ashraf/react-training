@@ -20,6 +20,16 @@ export const ExperienceSection = ({ experienceData, handleExperienceData }) => {
 
   const [selectedExperience, setSelectedExperience] = useState(null);
 
+  const [searchCompany, setSearchCompany] = useState("");
+  const [searchExperienceData, setSearchExperienceData] =
+    useState(experienceData);
+
+  const setExperienceData = (updatedData) => {
+    setSearchCompany("");
+    handleExperienceData(updatedData);
+    setSearchExperienceData(updatedData);
+  };
+
   const handleShowForm = () => {
     setShowForm(true);
   };
@@ -40,7 +50,7 @@ export const ExperienceSection = ({ experienceData, handleExperienceData }) => {
     const updateExperiencedData = experienceData.filter(
       (item) => item._id != id
     );
-    handleExperienceData(updateExperiencedData);
+    setExperienceData(updateExperiencedData);
   };
 
   const handleSubmit = (e) => {
@@ -53,15 +63,24 @@ export const ExperienceSection = ({ experienceData, handleExperienceData }) => {
           return item;
         }
       });
-      handleExperienceData(updatedExperience);
+      setExperienceData(updatedExperience);
       setSelectedExperience(null);
     } else {
       const uniqueID = Date.now();
       const newExperience = { ...formData, _id: uniqueID };
-      handleExperienceData([...experienceData, newExperience]);
+      setExperienceData([...experienceData, newExperience]);
     }
 
     setFormData(initialFormData);
+  };
+
+  const handleSearchCompany = (e) => {
+    const searchValue = e.target.value;
+    setSearchCompany(searchValue);
+    const updatedExperienceData = experienceData.filter((item) =>
+      item.companyName.toLowerCase().includes(searchValue.toLowerCase())
+    );
+    setSearchExperienceData(updatedExperienceData);
   };
 
   return (
@@ -85,10 +104,24 @@ export const ExperienceSection = ({ experienceData, handleExperienceData }) => {
         />
       )}
 
+      {isEditMode && (
+        <div className="formControl">
+          <input
+            type="text"
+            id="searchCompany"
+            name="searchCompany"
+            value={searchCompany}
+            placeholder="Search by company"
+            onChange={handleSearchCompany}
+            autoComplete="np"
+          />
+        </div>
+      )}
+
       <ul id="experienceList">
-        {experienceData.length ? (
+        {searchExperienceData.length ? (
           <>
-            {experienceData.map((item) => {
+            {searchExperienceData.map((item) => {
               return (
                 <ExperienceList
                   key={item._id}
