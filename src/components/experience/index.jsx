@@ -14,24 +14,25 @@ const initialFormData = {
 export const ExperienceSection = ({ experienceData, handleExperienceData }) => {
   const isEditMode = useContext(EditModeContext);
 
-  const [showForm, setShowForm] = useState(false);
+  const [isFormVisible, setIsFormVisible] = useState(false);
 
   const [formData, setFormData] = useState(initialFormData);
 
   const [selectedExperience, setSelectedExperience] = useState(null);
 
-  const [searchCompany, setSearchCompany] = useState("");
-  const [searchExperienceData, setSearchExperienceData] =
+  const [searchInput, setSearchInput] = useState("");
+
+  const [filteredExperienceData, setFilteredExperienceData] =
     useState(experienceData);
 
-  const setExperienceData = (updatedData) => {
-    setSearchCompany("");
+  const updateExperienceData = (updatedData) => {
+    setSearchInput("");
     handleExperienceData(updatedData);
-    setSearchExperienceData(updatedData);
+    setFilteredExperienceData(updatedData);
   };
 
-  const handleShowForm = () => {
-    setShowForm(true);
+  const showForm = () => {
+    setIsFormVisible(true);
   };
 
   const handleInputChange = (e) => {
@@ -43,14 +44,14 @@ export const ExperienceSection = ({ experienceData, handleExperienceData }) => {
     setSelectedExperience(id);
     const editExperience = experienceData.find((item) => item._id == id);
     setFormData(editExperience);
-    handleShowForm();
+    showForm();
   };
 
   const handleDeleteExperience = (id) => {
     const updateExperiencedData = experienceData.filter(
       (item) => item._id != id
     );
-    setExperienceData(updateExperiencedData);
+    updateExperienceData(updateExperiencedData);
   };
 
   const handleSubmit = (e) => {
@@ -63,24 +64,24 @@ export const ExperienceSection = ({ experienceData, handleExperienceData }) => {
           return item;
         }
       });
-      setExperienceData(updatedExperience);
+      updateExperienceData(updatedExperience);
       setSelectedExperience(null);
     } else {
       const uniqueID = Date.now();
       const newExperience = { ...formData, _id: uniqueID };
-      setExperienceData([...experienceData, newExperience]);
+      updateExperienceData([...experienceData, newExperience]);
     }
 
     setFormData(initialFormData);
   };
 
-  const handleSearchCompany = (e) => {
+  const filterExperienceData = (e) => {
     const searchValue = e.target.value;
-    setSearchCompany(searchValue);
+    setSearchInput(searchValue);
     const updatedExperienceData = experienceData.filter((item) =>
       item.companyName.toLowerCase().includes(searchValue.toLowerCase())
     );
-    setSearchExperienceData(updatedExperienceData);
+    setFilteredExperienceData(updatedExperienceData);
   };
 
   return (
@@ -89,13 +90,13 @@ export const ExperienceSection = ({ experienceData, handleExperienceData }) => {
         <h2>Experience</h2>
         {isEditMode && (
           <div>
-            <button type="button" className="btn" onClick={handleShowForm}>
+            <button type="button" className="btn" onClick={showForm}>
               Add Experience
             </button>
           </div>
         )}
       </div>
-      {showForm && isEditMode && (
+      {isFormVisible && isEditMode && (
         <ExperienceForm
           formData={formData}
           selectedExperience={selectedExperience}
@@ -108,20 +109,20 @@ export const ExperienceSection = ({ experienceData, handleExperienceData }) => {
         <div className="formControl">
           <input
             type="text"
-            id="searchCompany"
-            name="searchCompany"
-            value={searchCompany}
+            id="searchInput"
+            name="searchInput"
+            value={searchInput}
             placeholder="Search by company"
-            onChange={handleSearchCompany}
+            onChange={filterExperienceData}
             autoComplete="np"
           />
         </div>
       )}
 
       <ul id="experienceList">
-        {searchExperienceData.length ? (
+        {filteredExperienceData.length ? (
           <>
-            {searchExperienceData.map((item) => {
+            {filteredExperienceData.map((item) => {
               return (
                 <ExperienceList
                   key={item._id}
