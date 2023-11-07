@@ -1,7 +1,7 @@
-async function httpRequest(url, options = {}) {
+const httpRequest = async (url, options = {}) => {
   const response = await fetch(url, options);
   return await response.json();
-}
+};
 
 export const createRequest = (url, data) => {
   const options = {

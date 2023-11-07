@@ -6,8 +6,10 @@ const initialAboutText = `I am a passionate software engineer with a strong focu
 
 export const AboutSection = ({ experienceData }) => {
   const isEditMode = useContext(EditModeContext);
-  const getAboutText = localStorage.getItem("aboutText") || initialAboutText;
-  const [aboutText, setAboutText] = useState(getAboutText);
+
+  const [aboutText, setAboutText] = useState(
+    localStorage.getItem("aboutText") || initialAboutText
+  );
 
   const aboutTextChangeHandler = (e) => {
     const aboutTextValue = e.target.value;

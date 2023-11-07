@@ -4,9 +4,9 @@ import { ExperienceSection } from "../../components/experience";
 import { Sidebar } from "../../components/sidebar";
 
 export const Home = () => {
-  const getExperienceData =
-    JSON.parse(localStorage.getItem("experienceData")) || [];
-  const [experienceData, setExperienceData] = useState(getExperienceData);
+  const [experienceData, setExperienceData] = useState(
+    JSON.parse(localStorage.getItem("experienceData")) || []
+  );
 
   const handleExperienceData = (data) => {
     localStorage.setItem("experienceData", JSON.stringify(data));

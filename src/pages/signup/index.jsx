@@ -1,10 +1,13 @@
 import { useState } from "react";
 
+import { createRequest } from "../../api";
+
 const initialFormData = {
   name: "",
   email: "",
   password: "",
 };
+
 export const SignUp = () => {
   const [formData, setFormData] = useState(initialFormData);
   const [errors, setErrors] = useState({});
@@ -13,11 +16,13 @@ export const SignUp = () => {
 
   const validateForm = () => {
     const newErrors = {};
-    if (formData.name.trim() === "") {
+    if (!formData.name.trim()) {
       newErrors.name = "Name is required.";
     }
-    if (formData.email === "") {
-      newErrors.email = "Email is required.";
+
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    if (!emailRegex.test(formData.email)) {
+      newErrors.email = "Email is not valid.";
     }
     if (formData.password.length < 8) {
       newErrors.password = "Password length minimum 8 characters.";
@@ -32,15 +37,6 @@ export const SignUp = () => {
     validateForm();
   };
 
-  const createRequest = async () => {
-    const response = await fetch("https://dummyjson.com/users/add", {
-      method: "post",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formData),
-    });
-    return await response.json();
-  };
-
   const displayResponse = (type, message) => {
     setFormResponseType(type);
     setFormResponse(message);
@@ -51,12 +47,10 @@ export const SignUp = () => {
     displayResponse("error", "");
     const validate = validateForm();
     if (Object.keys(validate).length === 0) {
-      console.log("successfully Submitted");
       try {
-        const userCreated = await createRequest();
-        if (userCreated.success) {
-          displayResponse("success", "User created successfully.");
-        }
+        await createRequest("https://dummyjson.com/users/add", formData);
+        displayResponse("success", "User created successfully.");
+        setFormData(initialFormData);
       } catch (er) {
         displayResponse("error", er);
       }

@@ -8,8 +8,10 @@ const initialSkills = `JavaScript, React, TypeScript, HTML, CSS, TailwindCSS, Bo
 
 export const Sidebar = () => {
   const isEditMode = useContext(EditModeContext);
-  const getSkills = localStorage.getItem("skills") || initialSkills;
-  const [skills, setSkills] = useState(getSkills);
+
+  const [skills, setSkills] = useState(
+    localStorage.getItem("skills") || initialSkills
+  );
 
   const handleChangeSkills = (e) => {
     const skillsValue = e.target.value;
