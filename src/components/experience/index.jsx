@@ -11,17 +11,28 @@ const initialFormData = {
   description: "",
 };
 
-export const ExperienceSection = ({ experienceData, setExperienceData }) => {
+export const ExperienceSection = ({ experienceData, handleExperienceData }) => {
   const isEditMode = useContext(EditModeContext);
 
-  const [showForm, setShowForm] = useState(false);
+  const [isFormVisible, setIsFormVisible] = useState(false);
 
   const [formData, setFormData] = useState(initialFormData);
 
   const [selectedExperience, setSelectedExperience] = useState(null);
 
-  const handleShowForm = () => {
-    setShowForm(true);
+  const [searchInput, setSearchInput] = useState("");
+
+  const [filteredExperienceData, setFilteredExperienceData] =
+    useState(experienceData);
+
+  const updateExperienceData = (updatedData) => {
+    setSearchInput("");
+    handleExperienceData(updatedData);
+    setFilteredExperienceData(updatedData);
+  };
+
+  const showForm = () => {
+    setIsFormVisible(true);
   };
 
   const handleInputChange = (e) => {
@@ -33,13 +44,14 @@ export const ExperienceSection = ({ experienceData, setExperienceData }) => {
     setSelectedExperience(id);
     const editExperience = experienceData.find((item) => item._id == id);
     setFormData(editExperience);
+    showForm();
   };
 
   const handleDeleteExperience = (id) => {
     const updateExperiencedData = experienceData.filter(
       (item) => item._id != id
     );
-    setExperienceData(updateExperiencedData);
+    updateExperienceData(updateExperiencedData);
   };
 
   const handleSubmit = (e) => {
@@ -52,15 +64,24 @@ export const ExperienceSection = ({ experienceData, setExperienceData }) => {
           return item;
         }
       });
-      setExperienceData(updatedExperience);
+      updateExperienceData(updatedExperience);
       setSelectedExperience(null);
     } else {
       const uniqueID = Date.now();
       const newExperience = { ...formData, _id: uniqueID };
-      setExperienceData([...experienceData, newExperience]);
+      updateExperienceData([...experienceData, newExperience]);
     }
 
     setFormData(initialFormData);
+  };
+
+  const filterExperienceData = (e) => {
+    const searchValue = e.target.value;
+    setSearchInput(searchValue);
+    const updatedExperienceData = experienceData.filter((item) =>
+      item.companyName.toLowerCase().includes(searchValue.toLowerCase())
+    );
+    setFilteredExperienceData(updatedExperienceData);
   };
 
   return (
@@ -69,13 +90,13 @@ export const ExperienceSection = ({ experienceData, setExperienceData }) => {
         <h2>Experience</h2>
         {isEditMode && (
           <div>
-            <button type="button" className="btn" onClick={handleShowForm}>
+            <button type="button" className="btn" onClick={showForm}>
               Add Experience
             </button>
           </div>
         )}
       </div>
-      {showForm && isEditMode && (
+      {isFormVisible && isEditMode && (
         <ExperienceForm
           formData={formData}
           selectedExperience={selectedExperience}
@@ -84,10 +105,24 @@ export const ExperienceSection = ({ experienceData, setExperienceData }) => {
         />
       )}
 
+      {isEditMode && (
+        <div className="formControl">
+          <input
+            type="text"
+            id="searchInput"
+            name="searchInput"
+            value={searchInput}
+            placeholder="Search by company"
+            onChange={filterExperienceData}
+            autoComplete="np"
+          />
+        </div>
+      )}
+
       <ul id="experienceList">
-        {experienceData.length ? (
+        {filteredExperienceData.length ? (
           <>
-            {experienceData.map((item) => {
+            {filteredExperienceData.map((item) => {
               return (
                 <ExperienceList
                   key={item._id}

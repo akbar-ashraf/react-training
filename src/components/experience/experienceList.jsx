@@ -19,7 +19,6 @@ export const ExperienceList = ({
       {item.startDate && <>Start Date: {item.startDate}</>}
       {item.endDate && <> - End Date: {item.endDate}</>}
       {item.description && <p>{item.description}</p>}
-
       {isEditMode && (
         <div className="cardActions">
           <span

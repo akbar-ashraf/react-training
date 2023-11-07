@@ -4,15 +4,17 @@ import { EditModeContext } from "../../context/editModeContext";
 import { ProfileAvatar } from "../avatar";
 import avatarImg from "../../assets/akbar-profile.png";
 
+const initialSkills = `JavaScript, React, TypeScript, HTML, CSS, TailwindCSS, Bootstrap, Responsive Web Design`;
+
 export const Sidebar = () => {
   const isEditMode = useContext(EditModeContext);
+  const getSkills = localStorage.getItem("skills") || initialSkills;
+  const [skills, setSkills] = useState(getSkills);
 
-  const [skills, setSkills] = useState(
-    `JavaScript, React, TypeScript, HTML, CSS, TailwindCSS, Bootstrap, Responsive Web Design`
-  );
-
-  const handleSkills = (e) => {
-    setSkills(e.target.value);
+  const handleChangeSkills = (e) => {
+    const skillsValue = e.target.value;
+    localStorage.setItem("skills", skillsValue);
+    setSkills(skillsValue);
   };
 
   return (
@@ -22,7 +24,10 @@ export const Sidebar = () => {
       <h4>Skills:</h4>
       {isEditMode ? (
         <div className="formControl">
-          <textarea defaultValue={skills} onChange={handleSkills}></textarea>
+          <textarea
+            defaultValue={skills}
+            onChange={handleChangeSkills}
+          ></textarea>
         </div>
       ) : (
         <p>{skills}</p>

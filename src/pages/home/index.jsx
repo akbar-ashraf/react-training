@@ -4,7 +4,14 @@ import { ExperienceSection } from "../../components/experience";
 import { Sidebar } from "../../components/sidebar";
 
 export const Home = () => {
-  const [experienceData, setExperienceData] = useState([]);
+  const getExperienceData =
+    JSON.parse(localStorage.getItem("experienceData")) || [];
+  const [experienceData, setExperienceData] = useState(getExperienceData);
+
+  const handleExperienceData = (data) => {
+    localStorage.setItem("experienceData", JSON.stringify(data));
+    setExperienceData(data);
+  };
 
   return (
     <div className="portfolioContent">
@@ -12,7 +19,7 @@ export const Home = () => {
         <AboutSection experienceData={experienceData} />
         <ExperienceSection
           experienceData={experienceData}
-          setExperienceData={setExperienceData}
+          handleExperienceData={handleExperienceData}
         />
       </div>
       <Sidebar />
