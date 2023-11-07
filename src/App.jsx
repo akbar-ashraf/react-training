@@ -1,8 +1,11 @@
 import { useState } from "react";
+import { Outlet } from "react-router-dom";
+
+import { EditModeContext } from "./context/editModeContext";
+
 import { Header } from "./components/header";
 import { Footer } from "./components/footer";
-import { Home } from "./pages/home";
-import { EditModeContext } from "./context/editModeContext";
+
 function App() {
   const [isEditMode, setIsEditMode] = useState(false);
 
@@ -15,7 +18,7 @@ function App() {
       <EditModeContext.Provider value={isEditMode}>
         <Header onToggle={toggleEditMode} />
         <div id="contentWrapper" className="container">
-          <Home></Home>
+          <Outlet />
         </div>
         <Footer />
       </EditModeContext.Provider>

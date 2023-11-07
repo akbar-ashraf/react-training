@@ -59,6 +59,7 @@ h4 {
   justify-content: end;
   align-items: center;
   min-height: 44px;
+  gap: 20px;
 }
 .navigation ul {
   display: flex;
@@ -80,7 +81,7 @@ h4 {
 
 #contentWrapper {
   padding: 60px 0;
-  min-height: calc(100vh - 136px);
+  min-height: calc(100vh - 140px);
 }
 
 .portfolioContent {
@@ -155,7 +156,6 @@ h4 {
   background-color: rgba(255, 0, 0, 0.1);
   border: 1px solid red;
   font-size: 14px;
-  display: none;
   margin-top: 20px;
 }
 
@@ -248,13 +248,13 @@ form button {
   width: 20px;
 }
 
-#signupPage {
+#signUpPage {
   width: 700px;
   max-width: 100%;
   margin: auto;
 }
 
-.signupPageTitle {
+.signUpPageTitle {
   margin-bottom: 40px;
   text-align: center;
 }
@@ -377,6 +377,13 @@ form button {
     transform: rotate(360deg);
     transform: rotate(360deg);
   }
+}
+
+#errorPage {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
 }
 
 @media screen and (max-width: 1023px) {
