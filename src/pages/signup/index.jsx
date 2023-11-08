@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import { createRequest } from "../../api";
-
+import { Loader } from "../../components/loader";
 const initialFormData = {
   name: "",
   email: "",
@@ -13,6 +13,7 @@ export const SignUp = () => {
   const [errors, setErrors] = useState({});
   const [formResponse, setFormResponse] = useState("");
   const [formResponseType, setFormResponseType] = useState("error");
+  const [isLoading, setIsLoading] = useState(false);
 
   const validateForm = () => {
     const newErrors = {};
@@ -34,7 +35,6 @@ export const SignUp = () => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
-    validateForm();
   };
 
   const displayResponse = (type, message) => {
@@ -48,11 +48,14 @@ export const SignUp = () => {
     const validate = validateForm();
     if (Object.keys(validate).length === 0) {
       try {
+        setIsLoading(true);
         await createRequest("https://dummyjson.com/users/add", formData);
         displayResponse("success", "User created successfully.");
         setFormData(initialFormData);
+        setIsLoading(false);
       } catch (er) {
         displayResponse("error", er);
+        setIsLoading(false);
       }
     }
   };
@@ -73,7 +76,7 @@ export const SignUp = () => {
               id="name"
               name="name"
               value={formData.name}
-              onChange={handleInputChange}
+              onInput={handleInputChange}
             />
             {errors.name && <p className="error">{errors.name}</p>}
           </div>
@@ -111,6 +114,7 @@ export const SignUp = () => {
           <div className={`alert ${formResponseType}`}>{formResponse}</div>
         )}
       </div>
+      <Loader isLoading={isLoading}></Loader>
     </div>
   );
 };
