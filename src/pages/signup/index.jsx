@@ -52,9 +52,9 @@ export const SignUp = () => {
         await createRequest("https://dummyjson.com/users/add", formData);
         displayResponse("success", "User created successfully.");
         setFormData(initialFormData);
-        setIsLoading(false);
       } catch (er) {
         displayResponse("error", er);
+      } finally {
         setIsLoading(false);
       }
     }
@@ -76,7 +76,7 @@ export const SignUp = () => {
               id="name"
               name="name"
               value={formData.name}
-              onInput={handleInputChange}
+              onChange={handleInputChange}
             />
             {errors.name && <p className="error">{errors.name}</p>}
           </div>
