@@ -1,14 +1,27 @@
+import { useState } from "react";
+import { Outlet } from "react-router-dom";
+
+import { EditModeContext } from "./context/editModeContext";
+
 import { Header } from "./components/header";
 import { Footer } from "./components/footer";
-import { Home } from "./pages/home";
+
 function App() {
+  const [isEditMode, setIsEditMode] = useState(false);
+
+  const toggleEditMode = () => {
+    setIsEditMode(!isEditMode);
+  };
+
   return (
     <>
-      <Header />
-      <div id="contentWrapper" className="container">
-        <Home></Home>
-      </div>
-      <Footer />
+      <EditModeContext.Provider value={isEditMode}>
+        <Header onToggle={toggleEditMode} />
+        <div id="contentWrapper" className="container">
+          <Outlet />
+        </div>
+        <Footer />
+      </EditModeContext.Provider>
     </>
   );
 }

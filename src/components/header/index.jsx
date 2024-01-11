@@ -1,19 +1,28 @@
-export const Header = () => {
+import { useContext } from "react";
+import { EditModeContext } from "../../context/editModeContext";
+import { NavLink, useLocation } from "react-router-dom";
+
+export const Header = ({ onToggle }) => {
+  const isEditMode = useContext(EditModeContext);
+  const location = useLocation();
   return (
     <header id="header">
       <div className="container">
         <div className="navigation">
-          {/* <ul className="">
-            <li>
-              <a href="edit-portfolio.html">Edit Portfolio</a>
-            </li>
-            <li>
-              <a href="data-view.html">Data View</a>
-            </li>
-          </ul>
-          <a href="signup.html" className="btn btn-outline">
-            Signup
-          </a> */}
+          {location.pathname.includes("/signup") ? (
+            <NavLink to={`/`} className="btn">
+              Home
+            </NavLink>
+          ) : (
+            <>
+              <button className="btn btn-outline" onClick={onToggle}>
+                {isEditMode ? "Save" : "Edit"}
+              </button>
+              <NavLink to={`signup`} className="btn">
+                Sign Up
+              </NavLink>
+            </>
+          )}
         </div>
       </div>
     </header>
