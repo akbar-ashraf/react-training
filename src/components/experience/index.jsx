@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useMemo, useState } from "react";
 
 import { ExperienceList } from "./experienceList";
 import { ExperienceForm } from "./experienceForm";
@@ -22,13 +22,16 @@ export const ExperienceSection = ({ experienceData, handleExperienceData }) => {
 
   const [searchInput, setSearchInput] = useState("");
 
-  const [filteredExperienceData, setFilteredExperienceData] =
-    useState(experienceData);
+  const filteredExperienceData = useMemo(() => {
+    return experienceData.filter((item) =>
+      item.companyName.toLowerCase().includes(searchInput.toLowerCase())
+    );
+  }, [experienceData, searchInput]);
 
   const updateExperienceData = (updatedData) => {
     setSearchInput("");
     handleExperienceData(updatedData);
-    setFilteredExperienceData(updatedData);
+    //setFilteredExperienceData(updatedData);
   };
 
   const showForm = () => {
@@ -71,17 +74,12 @@ export const ExperienceSection = ({ experienceData, handleExperienceData }) => {
       const newExperience = { ...formData, _id: uniqueID };
       updateExperienceData([...experienceData, newExperience]);
     }
-
     setFormData(initialFormData);
   };
 
   const filterExperienceData = (e) => {
     const searchValue = e.target.value;
     setSearchInput(searchValue);
-    const updatedExperienceData = experienceData.filter((item) =>
-      item.companyName.toLowerCase().includes(searchValue.toLowerCase())
-    );
-    setFilteredExperienceData(updatedExperienceData);
   };
 
   return (
