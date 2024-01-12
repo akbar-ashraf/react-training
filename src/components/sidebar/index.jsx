@@ -1,17 +1,38 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import { EditModeContext } from "../../context/editModeContext";
 import { ProfileAvatar } from "../avatar";
 import avatarImg from "../../assets/akbar-profile.png";
+
+import { Loader } from "../../components/loader";
+
+import { getRequest } from "../../api";
 
 const initialSkills = `JavaScript, React, TypeScript, HTML, CSS, TailwindCSS, Bootstrap, Responsive Web Design`;
 
 export const Sidebar = () => {
   const isEditMode = useContext(EditModeContext);
 
-  const [skills, setSkills] = useState(
-    localStorage.getItem("skills") || initialSkills
-  );
+  const [isLoading, setIsLoading] = useState(false);
+
+  const [skills, setSkills] = useState();
+
+  const getSKills = async () => {
+    try {
+      const response = await getRequest(
+        "http://localhost:3000/api/portfolio/skills"
+      );
+      console.log(response.data[0].skills);
+      setSkills(response.data[0].skills);
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  useEffect(() => {
+    getSKills();
+  }, []);
 
   const handleChangeSkills = (e) => {
     const skillsValue = e.target.value;
@@ -21,6 +42,7 @@ export const Sidebar = () => {
 
   return (
     <div className="portfolioContentRight cardBox">
+      <Loader isLoading={isLoading}></Loader>
       <ProfileAvatar pictureURL={avatarImg} size="200" />
       <h3>Akbar Ali</h3>
       <h4>Skills:</h4>

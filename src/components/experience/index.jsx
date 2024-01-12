@@ -1,8 +1,11 @@
 import { useContext, useMemo, useState } from "react";
 
+import { createRequest, updateRequest, deleteRequest } from "../../api";
+
 import { ExperienceList } from "./experienceList";
 import { ExperienceForm } from "./experienceForm";
 import { EditModeContext } from "../../context/editModeContext";
+import { Loader } from "../loader";
 
 const initialFormData = {
   companyName: "",
@@ -13,7 +16,7 @@ const initialFormData = {
 
 export const ExperienceSection = ({ experienceData, handleExperienceData }) => {
   const isEditMode = useContext(EditModeContext);
-
+  const [isLoading, setIsLoading] = useState(false);
   const [isFormVisible, setIsFormVisible] = useState(false);
 
   const [formData, setFormData] = useState(initialFormData);
@@ -28,10 +31,9 @@ export const ExperienceSection = ({ experienceData, handleExperienceData }) => {
     );
   }, [experienceData, searchInput]);
 
-  const updateExperienceData = (updatedData) => {
+  const getExperienceData = () => {
     setSearchInput("");
-    handleExperienceData(updatedData);
-    //setFilteredExperienceData(updatedData);
+    handleExperienceData();
   };
 
   const showForm = () => {
@@ -50,31 +52,59 @@ export const ExperienceSection = ({ experienceData, handleExperienceData }) => {
     showForm();
   };
 
-  const handleDeleteExperience = (id) => {
-    const updateExperiencedData = experienceData.filter(
-      (item) => item._id != id
-    );
-    updateExperienceData(updateExperiencedData);
+  const handleDeleteExperience = async (id) => {
+    setIsLoading(true);
+    try {
+      await deleteRequest("http://localhost:3000/api/portfolio/experience", id);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setIsLoading(false);
+      getExperienceData();
+    }
+  };
+
+  const updateExperience = async (selectedExperienceID, formData) => {
+    setIsLoading(true);
+    try {
+      await updateRequest(
+        "http://localhost:3000/api/portfolio/experience",
+        selectedExperienceID,
+        formData
+      );
+    } catch (err) {
+      console.log(err);
+    } finally {
+      getExperienceData();
+      setIsLoading(false);
+    }
+  };
+
+  const addExperience = async (formData) => {
+    setIsLoading(true);
+    try {
+      await createRequest(
+        "http://localhost:3000/api/portfolio/experience",
+        formData
+      );
+    } catch (err) {
+      console.log(err);
+    } finally {
+      getExperienceData();
+      setIsLoading(false);
+    }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (selectedExperience) {
-      const updatedExperience = experienceData.map((item) => {
-        if (item._id === selectedExperience) {
-          return { ...item, ...formData };
-        } else {
-          return item;
-        }
-      });
-      updateExperienceData(updatedExperience);
+      updateExperience(selectedExperience, formData);
       setSelectedExperience(null);
     } else {
-      const uniqueID = Date.now();
-      const newExperience = { ...formData, _id: uniqueID };
-      updateExperienceData([...experienceData, newExperience]);
+      addExperience(formData);
     }
     setFormData(initialFormData);
+    getExperienceData();
   };
 
   const filterExperienceData = (e) => {
@@ -84,6 +114,7 @@ export const ExperienceSection = ({ experienceData, handleExperienceData }) => {
 
   return (
     <div className="cardBox">
+      <Loader isLoading={isLoading}></Loader>
       <div className="experienceTitle">
         <h2>Experience</h2>
         {isEditMode && (
