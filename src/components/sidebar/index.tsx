@@ -4,7 +4,7 @@ import { EditModeContext } from "../../context/editModeContext";
 import { ProfileAvatar } from "../avatar";
 import avatarImg from "../../assets/akbar-profile.png";
 
-import { Loader } from "../../components/loader";
+import { Loader } from "../loader";
 
 import { getRequest, updateRequest } from "../../api";
 

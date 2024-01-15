@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { EditModeContext } from "../../context/editModeContext";
+import { EditModeContext } from "../../context/editModeContext.tsx";
 import { NavLink, useLocation } from "react-router-dom";
 
 export const Header = ({ onToggle }) => {
