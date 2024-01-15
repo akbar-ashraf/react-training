@@ -40,6 +40,7 @@ export const Sidebar = () => {
       skills: skills,
     };
     try {
+      setIsLoading(true);
       await updateRequest(
         "http://localhost:3000/api/portfolio/skills",
         "65a13342323e9a91c8437ccd",

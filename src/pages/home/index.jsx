@@ -26,8 +26,6 @@ export const Home = () => {
 
   const handleExperienceData = () => {
     fetchExperiences();
-    //localStorage.setItem("experienceData", JSON.stringify(data));
-    //setExperienceData(data);
   };
 
   return (

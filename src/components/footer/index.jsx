@@ -3,7 +3,7 @@ export const Footer = () => {
     <footer id="footer">
       <div className="container">
         <p>
-          Find me on:
+          Find me on:{" "}
           <a
             href="https://pk.linkedin.com/in/akbar-ali-975693101"
             target="_blank"

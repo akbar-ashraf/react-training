@@ -16,7 +16,6 @@ export const AboutSection = ({ experienceData }) => {
 
   const getAboutText = async () => {
     try {
-      setIsLoading(true);
       const response = await getRequest(
         "http://localhost:3000/api/portfolio/about"
       );
