@@ -1,20 +1,53 @@
-import { useContext, useMemo, useState } from "react";
+import { useContext, useMemo, useState, useEffect } from "react";
 import { EditModeContext } from "../../context/editModeContext";
 import { calculateTotalExperience } from "../../utils";
-
-const initialAboutText = `I am a passionate software engineer with a strong focus on front-end development. With a keen eye for design and a knack for creating user-friendly interfaces, I have been dedicated to crafting engaging web experiences that not only look great but also function seamlessly. My expertise includes using cutting-edge technologies like React, JavaScript, HTML, and CSS to build responsive and interactive applications. I thrive in collaborative environments, solving complex problems, and delivering elegant solutions that enhance the users digital journey. I am excited about the ever-evolving world of web development and am always eager to take on new challenges to stay at the forefront of the field.`;
+import { Loader } from "../loader";
+import { getRequest, updateRequest } from "../../api";
 
 export const AboutSection = ({ experienceData }) => {
   const isEditMode = useContext(EditModeContext);
-
-  const [aboutText, setAboutText] = useState(
-    localStorage.getItem("aboutText") || initialAboutText
-  );
+  const [aboutText, setAboutText] = useState();
+  const [isLoading, setIsLoading] = useState(false);
 
   const aboutTextChangeHandler = (e) => {
     const aboutTextValue = e.target.value;
-    localStorage.setItem("aboutText", aboutTextValue);
     setAboutText(aboutTextValue);
+  };
+
+  const getAboutText = async () => {
+    try {
+      setIsLoading(true);
+      const response = await getRequest(
+        "http://localhost:3000/api/portfolio/about"
+      );
+      setAboutText(response.data[0].about);
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  useEffect(() => {
+    getAboutText();
+  }, []);
+
+  const handleBlurSave = async () => {
+    setIsLoading(true);
+    const aboutData = {
+      _id: "65a50d467925c725772190eb",
+      about: aboutText,
+    };
+    try {
+      await updateRequest(
+        "http://localhost:3000/api/portfolio/about",
+        "65a50d467925c725772190eb",
+        aboutData
+      );
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const totalExperience = useMemo(() => {
@@ -23,6 +56,7 @@ export const AboutSection = ({ experienceData }) => {
 
   return (
     <div className="cardBox">
+      <Loader isLoading={isLoading}></Loader>
       <div className="experienceTitle">
         <h2>About</h2>
         <div>
@@ -36,6 +70,7 @@ export const AboutSection = ({ experienceData }) => {
           <textarea
             defaultValue={aboutText}
             onChange={aboutTextChangeHandler}
+            onBlur={handleBlurSave}
           ></textarea>
         </div>
       ) : (

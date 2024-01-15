@@ -6,15 +6,11 @@ import avatarImg from "../../assets/akbar-profile.png";
 
 import { Loader } from "../../components/loader";
 
-import { getRequest } from "../../api";
-
-const initialSkills = `JavaScript, React, TypeScript, HTML, CSS, TailwindCSS, Bootstrap, Responsive Web Design`;
+import { getRequest, updateRequest } from "../../api";
 
 export const Sidebar = () => {
   const isEditMode = useContext(EditModeContext);
-
   const [isLoading, setIsLoading] = useState(false);
-
   const [skills, setSkills] = useState();
 
   const getSKills = async () => {
@@ -22,7 +18,6 @@ export const Sidebar = () => {
       const response = await getRequest(
         "http://localhost:3000/api/portfolio/skills"
       );
-      console.log(response.data[0].skills);
       setSkills(response.data[0].skills);
     } catch (e) {
       console.error(e);
@@ -36,8 +31,25 @@ export const Sidebar = () => {
 
   const handleChangeSkills = (e) => {
     const skillsValue = e.target.value;
-    localStorage.setItem("skills", skillsValue);
     setSkills(skillsValue);
+  };
+
+  const handleBlurSave = async () => {
+    const skillsData = {
+      _id: "65a13342323e9a91c8437ccd",
+      skills: skills,
+    };
+    try {
+      await updateRequest(
+        "http://localhost:3000/api/portfolio/skills",
+        "65a13342323e9a91c8437ccd",
+        skillsData
+      );
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -51,6 +63,7 @@ export const Sidebar = () => {
           <textarea
             defaultValue={skills}
             onChange={handleChangeSkills}
+            onBlur={handleBlurSave}
           ></textarea>
         </div>
       ) : (
